@@ -1,28 +1,16 @@
 {
-<<<<<<< HEAD
   "name": "fastfy-prisma",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-=======
-  "name": "agenda-contatos",
-  "version": "1.0.0",
-  "description": "API RESTful para gerenciamento de agenda de contatos",
-  "main": "src/app.js",
-  "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js",
->>>>>>> cafcd1e9fda90fd1405d0b733c2fed26f8fb3d90
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-<<<<<<< HEAD
   "type": "module",
+  "scripts": {
+    "test": "echo\"Error: no test specified\" && exit 1",
+    "dev": "tsx --watch src/server.ts",
+    "start": "node dist/server.js"
+  },
   "dependencies": {
-    "@prisma/client": "^7.5.0",
+    "@prisma/client": "^7.6.0",
     "fastify": "^5.8.4"
   },
   "devDependencies": {
@@ -30,19 +18,5 @@
     "prisma": "^7.5.0",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2"
-=======
-  "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
-    "express": "^5.2.1",
-    "express-validator": "^7.3.1",
-    "helmet": "^8.1.0",
-    "jsonwebtoken": "^9.0.3",
-    "mysql2": "^3.20.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.14"
->>>>>>> cafcd1e9fda90fd1405d0b733c2fed26f8fb3d90
   }
 }
