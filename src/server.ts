@@ -3,7 +3,7 @@ import fastify from "fastify"
 import type { FastifyInstance } from "fastify"
 
 // logger trás algumas informações de log do sistema
-const app: FastifyInstance = fastify({ logger: true});
+const app: FastifyInstance = fastify({ logger: false});
 
 app.listen(
     {
