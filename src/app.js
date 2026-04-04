@@ -3,7 +3,8 @@ require("dotenv").config();
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
-const { initDatabase } = require("./config/database");
+//const { initDatabase } = require("./config/database");
+const prisma = require("./config/prisma");
 
 const authRoutes = require("./routes/authRoutes");
 const contactRoutes = require("./routes/contactRoutes");
@@ -40,16 +41,6 @@ app.use((err, req, res, next) => {
 // Inicialização
 const PORT = process.env.PORT || 3000;
 
-async function start() {
-  try {
-    await initDatabase();
-    app.listen(PORT, () => {
-      console.log(`Servidor rodando na porta ${PORT}`);
-    });
-  } catch (err) {
-    console.error("Falha ao iniciar o servidor:", err);
-    process.exit(1);
-  }
-}
-
-start();
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});

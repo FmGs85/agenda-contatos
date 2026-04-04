@@ -1,39 +1,32 @@
-const { pool } = require("../config/database");
+const prisma = require("../config/prisma");
 
 class Contact {
   static async findAllByUser(userId) {
-    const [rows] = await pool.query(
-      "SELECT * FROM contacts WHERE user_id = ? ORDER BY name",
-      [userId]
-    );
-    return rows;
+    return prisma.contact.findMany({
+      where: { user_id: userId },
+      orderBy: { name: "asc" },
+    });
   }
 
   static async findById(id) {
-    const [rows] = await pool.query("SELECT * FROM contacts WHERE id = ?", [id]);
-    return rows[0] || null;
+    return prisma.contact.findUnique({ where: { id } });
   }
 
   static async create({ user_id, name, phone, email, address, notes }) {
-    const [result] = await pool.query(
-      `INSERT INTO contacts (user_id, name, phone, email, address, notes) 
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [user_id, name, phone || null, email || null, address || null, notes || null]
-    );
-    return this.findById(result.insertId);
+    return prisma.contact.create({
+      data: { user_id, name, phone, email, address, notes },
+    });
   }
 
   static async update(id, { name, phone, email, address, notes }) {
-    await pool.query(
-      `UPDATE contacts SET name = ?, phone = ?, email = ?, address = ?, notes = ?
-       WHERE id = ?`,
-      [name, phone || null, email || null, address || null, notes || null, id]
-    );
-    return this.findById(id);
+    return prisma.contact.update({
+      where: { id },
+      data: { name, phone, email, address, notes },
+    });
   }
 
   static async delete(id) {
-    await pool.query("DELETE FROM contacts WHERE id = ?", [id]);
+    return prisma.contact.delete({ where: { id } });
   }
 }
 

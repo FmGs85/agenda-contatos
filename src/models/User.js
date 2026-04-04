@@ -1,34 +1,30 @@
-const { pool } = require("../config/database");
+const prisma = require("../config/prisma");
 const bcrypt = require("bcryptjs");
 
 class User {
   static async findByEmail(email) {
-    const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
-    return rows[0] || null;
+    return prisma.user.findUnique({ where: { email } });
   }
 
   static async findById(id) {
-    const [rows] = await pool.query(
-      "SELECT id, name, email, role, created_at, updated_at FROM users WHERE id = ?",
-      [id]
-    );
-    return rows[0] || null;
+    return prisma.user.findUnique({
+      where: { id },
+      select: { id: true, name: true, email: true, role: true, created_at: true, updated_at: true },
+    });
   }
 
   static async findAll() {
-    const [rows] = await pool.query(
-      "SELECT id, name, email, role, created_at, updated_at FROM users"
-    );
-    return rows;
+    return prisma.user.findMany({
+      select: { id: true, name: true, email: true, role: true, created_at: true, updated_at: true },
+    });
   }
 
   static async create({ name, email, password, role = "user" }) {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const [result] = await pool.query(
-      "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)",
-      [name, email, hashedPassword, role]
-    );
-    return { id: result.insertId, name, email, role };
+    return prisma.user.create({
+      data: { name, email, password: hashedPassword, role },
+      select: { id: true, name: true, email: true, role: true },
+    });
   }
 
   static async comparePassword(plainPassword, hashedPassword) {
